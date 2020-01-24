@@ -1,0 +1,224 @@
+---
+title: Alvaro Gerns's Resume"
+author: Alvaro Gerns
+date: "`r Sys.Date()`"
+output:
+  pagedown::html_resume:
+    css: ['css/custom_resume.css', 'css/styles.css', 'resume']
+    # set it to true for a self-contained HTML page but it'll take longer to render
+    self_contained: true
+---
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+library(tidyverse)
+library(glue)
+# Set this to true to have links turned into footnotes at the end of the document
+PDF_EXPORT <- FALSE
+# Holds all the links that were inserted for placement at the end
+links <- c()
+source('parsing_functions.R')
+# Load csv with position info
+position_data <- read_csv('positions.csv') 
+
+
+
+```
+
+
+```{r}
+# When in export mode the little dots are unaligned, so fix that. 
+if(PDF_EXPORT){
+  cat("
+  <style>
+  :root{
+    --decorator-outer-offset-left: -6.5px;
+  }
+  </style>")
+}
+```
+
+Aside
+================================================================================
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+
+- <i class="fa fa-envelope"></i> alvarogerns@yahoo.de
+- <i class="fa fa-skype"></i> <a href="skype:live:alvarogerns?call">live:alvarogerns</a>
+- <i class="fa fa-linkedin"></i>  [Alvaro Gerns](https://linkedin.com/in/alvarogerns)
+- <i class="fa fa-phone"></i> +41 775065971
+
+
+
+Language Skills {#skills}
+--------------------------------------------------------------------------------
+
+```{r}
+skills <- tribble(
+  ~skill,               ~level,
+  "German",             5,
+  "Spanish",            5,
+  "English",            5,
+  "French",             3
+)
+build_skill_bars(skills)
+```
+
+
+
+
+IT skills {#skills2}
+--------------------------------------------------------------------------------
+
+```{r}
+skills2 <- tribble(
+  ~skill,               ~level,
+  "R",                  5,
+  "Stata",              5,
+  "Tableau",            4.5,
+  "LaTeX",              4,
+  "Python",             2
+)
+build_skill_bars(skills2)
+#Credits on template to [Nick Strayer](https:github.com/nstrayer/cv)
+
+#Publications {#more-info}
+#--------------------------------------------------------------------------------
+
+
+```
+
+
+
+Disclaimer {#disclaimer}
+--------------------------------------------------------------------------------
+
+
+Last updated on `r Sys.Date()`.
+
+
+Main
+================================================================================
+
+Alvaro Gerns Jimenez-Villarejo {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+intro_text <- "A research-oriented individual that is looking to engage further in the field of development aid through the lens of evidence-based policy making; particularly interested in the knowledge transfer and translation between research and policy and how we can process already available evidence on poverty eradication. He is a passionate climber and hobby painter."
+cat(sanitize_links(intro_text))
+```
+
+
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+print_section(position_data, 'education')
+```
+
+
+
+Work Experience {data-icon=laptop}
+--------------------------------------------------------------------------------
+
+```{r}
+print_section(position_data, 'work_experience')
+```
+
+
+
+Industry Experience {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+::: aside
+I have worked in a variety of roles ranging from journalist to software engineer to data scientist. I like collaborative environments where I can learn from my peers. 
+:::
+
+```{r, eval=FALSE, eval=FALSE}
+print_section(position_data, 'industry_positions')
+```
+
+<br>
+<br>
+<br>
+
+Teaching Experience {data-icon=chalkboard-teacher}
+--------------------------------------------------------------------------------
+
+::: aside
+I am passionate about education. I believe that no topic is too complex if the teacher is empathetic and willing to think about new methods of approaching task. 
+:::
+
+```{r, eval=FALSE}
+print_section(position_data, 'teaching_positions')
+```
+
+
+Selected Data Science Writing {data-icon=chart-line}
+--------------------------------------------------------------------------------
+
+
+::: aside
+Other shit
+:::
+
+```{r, eval=FALSE}
+print_section(position_data, 'data_science_writings')
+```
+
+
+
+Selected Press (About)  {data-icon=newspaper}
+--------------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+print_section(position_data, 'about_me_press')
+```
+
+
+
+Selected Press (By)  {data-icon=newspaper}
+--------------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+print_section(position_data, 'by_me_press')
+```
+
+
+
+
+Selected Publications, Posters, and Talks {data-icon=book}
+--------------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+print_section(position_data, 'academic_articles')
+```
+
+
+
+```{r}
+if(PDF_EXPORT){
+  cat("
+  
+Links {data-icon=link}
+--------------------------------------------------------------------------------
+<br>
+")
+  
+  walk2(links, 1:length(links), function(link, index){
+    print(glue('{index}. {link}'))
+  })
+}
+```
+
+
+
+
